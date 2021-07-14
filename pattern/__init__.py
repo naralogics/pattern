@@ -65,9 +65,9 @@ try:
     import pkgutil
 
     __all__ = []
-    text_base = [os.path.join(__path__[0], "text")]
-    __path__.append(text_base[0])
-    for loader, module_name, is_pkg in pkgutil.walk_packages(text_base):
+    text_base = os.path.join(__path__[0], "text")
+    __path__.append(text_base)
+    for loader, module_name, is_pkg in pkgutil.walk_packages([text_base]):
         if is_pkg and '.' not in module_name:
             __all__.append(module_name)
 except:
