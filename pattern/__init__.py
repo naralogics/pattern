@@ -54,7 +54,21 @@ import os
 
 # Shortcuts to pattern.en, pattern.es, ...
 # (instead of pattern.text.en, pattern.text.es, ...)
+
+# NARA: Safely resolve sub modules under `text`
+# try:
+#     __path__.append(os.path.join(__path__[0], "text"))
+# except:
+#     pass
+
 try:
-    __path__.append(os.path.join(__path__[0], "text"))
+    import pkgutil
+
+    __all__ = []
+    text_base = [os.path.join(__path__[0], "text")]
+    __path__.append(text_base[0])
+    for loader, module_name, is_pkg in pkgutil.walk_packages(text_base):
+        if is_pkg and '.' not in module_name:
+            __all__.append(module_name)
 except:
-    pass
+  pass
